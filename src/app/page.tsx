@@ -17,12 +17,10 @@ export default async function Home() {
     <>
       { session ? (
         <>
-        <section className="flex flex-col gap-6">
+        {/* <section className="flex flex-col gap-6">
             <UserCard user={session?.user} pagetype={"Home"} />
-        </section>
+        </section> */}
           <Countries/>
-
-          
         </>
       ) : 
         (

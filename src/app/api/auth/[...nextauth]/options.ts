@@ -12,6 +12,8 @@ export const options: NextAuthOptions = {
                     role: profile.role ?? "user",
                     id: profile.id.toString(),
                     image: profile.avatar_url,
+                    name: profile.name,
+                    userName: profile.login,
                 }
             },
             clientId: process.env.GITHUB_ID as string,

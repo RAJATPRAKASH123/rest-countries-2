@@ -29,4 +29,4 @@ export default withAuth(
 
 // Now, it can be configured for multiple roles -
 
-export const config = {matcher:['/client']} // can be regex
+export const config = {matcher:['/client', '/countries/:countryname']} // can be regex
