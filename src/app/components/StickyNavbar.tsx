@@ -7,7 +7,6 @@ import UserCard from "./UserCard";
 
 export default async function StickyNavbar() {
   const session = await getServerSession(options);
-
     return (
         <nav className="bg-emerald-800 p-3">
             <ul className="flex justify-evenly text-2xl font-bold">

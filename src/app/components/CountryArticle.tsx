@@ -3,7 +3,7 @@ import react from 'react';
 
 interface CountryArticleProps {
     country: {
-      // Adjust the type according to your country data structure
+      // We can Adjust the type according country data structure
       name: {
         common: string;
       };
@@ -14,14 +14,14 @@ interface CountryArticleProps {
       subregion: string;
       region: string;
       population: string;
-      // flags: string;
+      area:number;
+      languages: Record<string, string>;
       // Other properties of the country object
     };
   }
   
 
 const CountryArticle: React.FC<CountryArticleProps> = ({ country }) => {
-// export default function CountryArticle({flags}){
   return (
     <>
       <Link href={`/countries/${country.name.common}`}>
@@ -32,8 +32,18 @@ const CountryArticle: React.FC<CountryArticleProps> = ({ country }) => {
             <ul className='flex flex-col items-start justify-start gap-2 dark:text-gray-400'>
               <li>Capital: {country.capital}</li>
               <li>Population: {country.population.toLocaleString()} </li>
+              <li>Area: {country.area} </li>
               <li>Region: {country.region} </li>
               <li>Sub Region: {country.subregion} </li>
+              
+              <b><h2>Languages : </h2> </b>
+                <ul className="p-2 mb-12 whitespace-nowrap no-scrollbar overflow-x-scroll overflow-y-hidden grid grid-cols-3 gap-4">
+                {country?.languages && Object.entries(country.languages).map(([code, language], index) => (
+                  <li className='border-gray-200 border rounded py-2 px-4 bg-gray-200 dark:bg-gray-900' key={index}>
+                    {`${language}`}
+                  </li>
+                ))}
+                </ul>
             </ul>
           </div>
         </article>

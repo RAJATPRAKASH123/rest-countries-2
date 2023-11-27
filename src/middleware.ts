@@ -9,8 +9,6 @@ import { NextRequest, NextResponse } from "next/server";
 export default withAuth(
     // withAuth augments the Request with user's token
     function middleware(request: NextRequestWithAuth){
-        console.log(request.nextUrl.pathname);
-        console.log(request.nextauth.token);
         if (request.nextUrl.pathname.startsWith("/client") &&
             request.nextauth.token?.role !== "admin" &&
             request.nextauth.token?.role !== "manager"){

@@ -36,11 +36,3 @@ export default async function Home() {
   )
 }
 
-// export default Home;
-
-// npm install prisma --save-dev
-// npx prisma init
-// npm i next-auth
-// openssl rand -base64 32   oepvKeDMBjHJcF8MAk1QRt9rXtvLtG2bTgPMZZBaBLk=
-// client ID - 3d93b1c8937f618f748e
-// client secret - 810f1da7052f35cd2f5f0b51986ccdfcf68bddbb

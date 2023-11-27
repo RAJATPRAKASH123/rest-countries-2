@@ -2,6 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from 'next-auth/providers/github';
 import  CredentialsProvider  from "next-auth/providers/credentials";
 import { GithubProfile } from "next-auth/providers/github";
+import { signJWTAccessToken } from "@/app/lib/jwt";
 
 export const options: NextAuthOptions = {
     providers: [
@@ -38,7 +39,13 @@ export const options: NextAuthOptions = {
                 // to verify with credentials
                 const user = {id: "42", name:"Rajat", password:"hahaha123", role:"admin"}
                 if (credentials?.username === user.name && credentials?.password === user.password){
-                    return user;
+                    
+                    const accessToken = signJWTAccessToken(user);
+                    const userWithPass = {
+                        ...user,
+                        accessToken
+                    }
+                    return userWithPass;
                 } else{
                     return null
                 }
@@ -50,7 +57,7 @@ export const options: NextAuthOptions = {
             if (user){
                 token.role = user.role;
             }
-            return token;
+            return {...token, ...user};
         },
         // To use the role in client components - 
         async session({session, token}){

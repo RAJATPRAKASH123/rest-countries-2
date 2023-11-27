@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { options } from "../../api/auth/[...nextauth]/options"
 import { getServerSession } from "next-auth/next"
 import { count } from 'console';
+import { getCountryInfo } from '@/app/utils/getcountry';
 
 interface CountryInfo {
   // Adjust the type according to your country data structure
@@ -16,7 +17,7 @@ interface CountryInfo {
   subregion: string;
   region: string;
   population: string;
-  languages: (string) [];
+  languages: Record<string, string>;
   // Other properties of the country object
 }
 
@@ -29,29 +30,44 @@ export default function Country({
   // const session = await getServerSession(options);
   const [countryInfo, setCountryInfo] = useState<CountryInfo[]>();
   const [error, setError] = useState<string | null>(null);
-  useEffect(()=>{
-      const getCountryInfo = async() => {
-          try {
-              const res = await fetch(`https://restcountries.com/v3.1/name/${params.countryname}`);
-              if (res.status === 404) {
-                setError(`No country with the name ${params.countryname}`);
-              } else if (!res.ok) {
-                  setError(`Error fetching data for ${params.countryname}`);
-              } else {
-                const data = await res.json();
-                setCountryInfo(data);
-              }
-          } catch(error) {
-              console.error(error);
-          }
+  // useEffect(()=>{
+  //     const getCountryInfo = async() => {
+  //         try {
+  //             const res = await fetch(`https://restcountries.com/v3.1/name/${params.countryname}`);
+  //             if (res.status === 404) {
+  //               setError(`No country with the name ${params.countryname}`);
+  //             } else if (!res.ok) {
+  //                 setError(`Error fetching data for ${params.countryname}`);
+  //             } else {
+  //               const data = await res.json();
+  //               setCountryInfo(data);
+  //             }
+  //         } catch(error) {
+  //             console.error(error);
+  //         }
+  //     }
+  //     getCountryInfo();
+  // }, [params.countryname])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        
+        const {data, error} = await getCountryInfo(params.countryname);
+        setCountryInfo(data);
+      } catch (error) {
+        setError(error as string);
       }
-      getCountryInfo();
-  }, [params.countryname])
+    };
+
+    fetchData();
+  }, [params.countryname]);
+
   // Display error message if there's an error
   if (error) {
     return <div>{error}</div>;
   }
-  // {console.log(countryInfo)}
+
   return (
     <section className='p-8 md:py-0 max-w-7xl mx-auto'>
       
@@ -69,7 +85,14 @@ export default function Country({
                 <li>Population: {item.population.toLocaleString()} </li>
                 <li>Region: {item.region} </li>
                 <li>Sub Region: {item.subregion} </li>
-                {/* <li>Languages: {item.languages}</li> */}
+                <b><h2>Languages : </h2> </b>
+                <ul className="p-2 mb-12 whitespace-nowrap no-scrollbar overflow-x-scroll overflow-y-hidden grid grid-cols-3 gap-4">
+                {item?.languages && Object.entries(item.languages).map(([code, language], index) => (
+                  <li className='border-gray-200 border rounded py-2 px-4 bg-gray-200 dark:bg-gray-900' key={index}>
+                    {`${language}`}
+                  </li>
+                ))}
+              </ul>
               </ul>
             </div>
           </article>

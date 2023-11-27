@@ -22,9 +22,7 @@ export default function Card({ user, pagetype }: Props) {
     const [isOpen, setIsOpen] = useState(false);
 
     function toggleButton(){
-        console.log("hahah");
         setIsOpen(isOpen => !isOpen);
-        console.log("hapa", isOpen);
     }
 
     const greeting = user?.name ? (
